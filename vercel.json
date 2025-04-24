@@ -2,9 +2,10 @@
   "version": 2,
   "routes": [
     { "handle": "filesystem" },
+    { "src": "/", "dest": "/index-fallback.html" },
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
     { "src": "/(.*)\\.(.+)", "dest": "/$1.$2" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    { "src": "/(.*)", "dest": "/index-fallback.html" }
   ],
   "buildCommand": "npm run vercel-build",
   "outputDirectory": "dist",
