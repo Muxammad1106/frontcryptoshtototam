@@ -1,26 +1,35 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
-export default defineConfig({
-  plugins: [react()],
-  define: {
-    'process.env': process.env, // добавь это, если хочешь поддержку `process.env`
-    
-  },
+export default defineConfig(({ mode }) => {
+  // Загрузка env переменных
+  const env = loadEnv(mode, process.cwd());
 
-  server: {
-    allowedHosts: ['.ngrok-free.app', '.loca.lt'], // разрешить любые ngrok/loca.lt адреса
-  },
-
-  // Добавляем правильную обработку маршрутов для SPA
-  build: {
-    outDir: 'dist',
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-      },
+  return {
+    plugins: [react()],
+    define: {
+      'process.env': env
     },
-  },
-
-  base: '/',
+    server: {
+      allowedHosts: ['.ngrok-free.app', '.loca.lt'],
+      port: 3000,
+    },
+    build: {
+      outDir: 'dist',
+      minify: 'terser',
+      sourcemap: false,
+      rollupOptions: {
+        output: {
+          manualChunks: undefined
+        }
+      }
+    },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      }
+    },
+    base: '/'
+  };
 });
