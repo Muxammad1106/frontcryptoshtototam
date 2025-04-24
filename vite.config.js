@@ -19,6 +19,12 @@ export default defineConfig(({ mode }) => {
       outDir: 'dist',
       minify: 'terser',
       sourcemap: false,
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
+      },
       rollupOptions: {
         output: {
           manualChunks: undefined
