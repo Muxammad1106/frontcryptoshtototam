@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Используем URL из env или фиксированный для API
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://admin1213123.pythonanywhere.com';
+// Устанавливаем URL сервера напрямую, без зависимости от переменных окружения
+const API_BASE = 'https://admin1213123.pythonanywhere.com';
 
 // Выводим в консоль используемый URL API
 console.log('🌐 API URL используется:', API_BASE);
