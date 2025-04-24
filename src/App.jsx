@@ -109,28 +109,9 @@ function App() {
     );
   }
 
-  // Изменённая проверка - пропускаем в режиме разработки или если это Telegram WebApp
-  if (!isAuthenticated && !isDev && !isTelegramWebApp()) {
-    return (
-      <div style={{ 
-        display: 'flex', 
-        flexDirection: 'column',
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh',
-        backgroundColor: '#1a1a1a',
-        color: 'white',
-        padding: '20px',
-        textAlign: 'center'
-      }}>
-        <div>Пожалуйста, откройте приложение через Telegram</div>
-        <div style={{ marginTop: '10px', fontSize: '14px', opacity: 0.7 }}>
-          <a href="https://t.me/p2pProb_bot/app" style={{ color: '#4D7AE3', textDecoration: 'underline' }}>
-            Открыть в Telegram
-          </a>
-        </div>
-      </div>
-    );
+  // Перенаправляем на страницу авторизации, если пользователь не аутентифицирован
+  if (!isAuthenticated && !isDev) {
+    return <Navigate to="/auth" replace />;
   }
 
   return (
