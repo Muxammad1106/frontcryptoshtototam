@@ -26,6 +26,11 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+// Проверяем, открыто ли приложение в Telegram
+const isTelegramWebApp = () => {
+  return window.Telegram && window.Telegram.WebApp;
+};
+
 const isDev = import.meta.env.DEV;
 
 function App() {
@@ -104,7 +109,8 @@ function App() {
     );
   }
 
-  if (!isAuthenticated && !isDev) {
+  // Изменённая проверка - пропускаем в режиме разработки или если это Telegram WebApp
+  if (!isAuthenticated && !isDev && !isTelegramWebApp()) {
     return (
       <div style={{ 
         display: 'flex', 
@@ -119,7 +125,9 @@ function App() {
       }}>
         <div>Пожалуйста, откройте приложение через Telegram</div>
         <div style={{ marginTop: '10px', fontSize: '14px', opacity: 0.7 }}>
-          {isDev ? '(Режим разработки)' : ''}
+          <a href="https://t.me/p2pProb_bot/app" style={{ color: '#4D7AE3', textDecoration: 'underline' }}>
+            Открыть в Telegram
+          </a>
         </div>
       </div>
     );
