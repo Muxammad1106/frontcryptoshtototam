@@ -12,12 +12,15 @@ window.env.VITE_API_BASE_URL = config.API_URL;
 
 // Переопределяем import.meta.env для всех файлов
 try {
-  if (typeof import !== 'undefined' && import.meta) {
-    import.meta.env = import.meta.env || {};
-    import.meta.env.VITE_API_BASE_URL = config.API_URL;
+  if (typeof window !== 'undefined') {
+    // Безопасная проверка для избежания ошибок парсинга
+    if (window.import && window.import.meta) {
+      window.import.meta.env = window.import.meta.env || {};
+      window.import.meta.env.VITE_API_BASE_URL = config.API_URL;
+    }
   }
 } catch (e) {
-  console.warn('Не удалось установить import.meta.env');
+  console.warn('Не удалось установить import.meta.env', e);
 }
 
 // Отладочные логи
