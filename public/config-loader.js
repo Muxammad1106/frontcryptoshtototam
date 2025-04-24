@@ -6,6 +6,9 @@ window.appConfig = {
   LAST_UPDATED: new Date().toISOString()
 };
 
+// Делаем CONFIG доступным глобально для всех скриптов
+window.CONFIG = window.appConfig;
+
 // Логи для отладки
 console.log('[CONFIG] Загружена глобальная конфигурация');
 console.log('[CONFIG] API URL:', window.appConfig.API_URL);
@@ -14,11 +17,32 @@ console.log('[CONFIG] API URL:', window.appConfig.API_URL);
 window.env = window.env || {};
 window.env.VITE_API_BASE_URL = window.appConfig.API_URL;
 
+// Переопределяем import.meta.env для совместимости
+window.import = window.import || {};
+window.import.meta = window.import.meta || {};
+window.import.meta.env = window.import.meta.env || {};
+window.import.meta.env.VITE_API_BASE_URL = window.appConfig.API_URL;
+
+// Добавляем совместимость с process.env
+window.process = window.process || {};
+window.process.env = window.process.env || {};
+window.process.env.VITE_API_BASE_URL = window.appConfig.API_URL;
+
 // Функция для проверки доступности API
 function checkApiAvailability() {
   console.log('[CONFIG] Проверка доступности API...');
   
-  return fetch(window.appConfig.API_URL + '/api/health-check')
+  const apiUrl = window.appConfig.API_URL + '/api/health-check';
+  console.log('[CONFIG] Проверка URL:', apiUrl);
+  
+  return fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      mode: 'cors',
+      cache: 'no-cache'
+    })
     .then(response => {
       if (response.ok) {
         console.log('[CONFIG] API доступен!');
