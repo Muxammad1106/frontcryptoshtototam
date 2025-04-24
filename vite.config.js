@@ -11,4 +11,16 @@ export default defineConfig({
   server: {
     allowedHosts: ['.ngrok-free.app', '.loca.lt'], // разрешить любые ngrok/loca.lt адреса
   },
+
+  // Добавляем правильную обработку маршрутов для SPA
+  build: {
+    outDir: 'dist',
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
+
+  base: '/',
 });
